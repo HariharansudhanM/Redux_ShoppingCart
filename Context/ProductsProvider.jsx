@@ -5,16 +5,16 @@ export const ProductsContext = createContext();
 function ProductsProvider({ children }) {
   const [cart, setCart] = useState([]);
 
-  function handleCart(product) {
-    if (cart.length < 1) {
-      setCart([...cart, product]);
-    }
-  }
+  const [bill, setBill] = useState([
+    { id: 1, totalPrice: 0 },
+    { id: 2, totalPrice: 0 },
+    { id: 3, totalPrice: 0 },
+    { id: 4, totalPrice: 0 },
+    { id: 5, totalPrice: 0 },
+  ]);
 
-  function removeProduct() {
-    setCart([]);
-  }
-  const products = [
+  ///////////////////////
+  const [products, setProducts] = useState([
     {
       id: 1,
       title: "iPhone 9",
@@ -104,10 +104,10 @@ function ProductsProvider({ children }) {
         "https://i.dummyjson.com/data/products/5/3.jpg",
       ],
     },
-  ];
+  ]);
   return (
     <ProductsContext.Provider
-      value={{ products, cart, handleCart, removeProduct }}
+      value={{ products, setProducts, cart, setCart, bill, setBill }}
     >
       {children}
     </ProductsContext.Provider>
