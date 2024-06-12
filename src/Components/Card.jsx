@@ -1,21 +1,39 @@
-import React, { useContext } from "react";
-import { ProductsContext } from "../../Context/ProductsProvider";
+import React from "react";
+// import { ProductsContext } from "../../Context/ProductsProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { addCart } from "../../Reducers/Cart-reducer";
 
 function Card({ title, image, description, product, price, category, brand }) {
-  const { cart, setCart } = useContext(ProductsContext);
+  // const { cart, setCart } = useContext(ProductsContext);
+
+  const { cart } = useSelector((state) => state.application);
+  const dispatch = useDispatch();
 
   function handleAddToCart() {
-    setCart(() => [
-      ...cart,
-      {
+    //////////Context
+    // setCart(() => [
+    //   ...cart,
+    //   {
+    //     id: product.id,
+    //     item: title,
+    //     cost: price,
+    //     quantity: 1,
+    //     about: description,
+    //     make: brand,
+    //   },
+    // ]);
+
+    /////////////Redux
+    dispatch(
+      addCart({
         id: product.id,
         item: title,
         cost: price,
         quantity: 1,
         about: description,
         make: brand,
-      },
-    ]);
+      })
+    );
   }
 
   let flag = cart.find((el) => el.id == product.id);

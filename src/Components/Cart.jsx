@@ -1,9 +1,16 @@
 import React, { useContext, useState } from "react";
-import { ProductsContext } from "../../Context/ProductsProvider";
+// import { ProductsContext } from "../../Context/ProductsProvider";
 import CartData from "./CartData";
+import { useSelector } from "react-redux";
 
 function Cart() {
-  const { cart, setCart, bill } = useContext(ProductsContext);
+  //////////////Context
+  // const { cart, setCart, bill } = useContext(ProductsContext);
+
+  /////////////Redux
+  const { cart } = useSelector((state) => state.application);
+  const { bill } = useSelector((state) => state.billApp);
+
   // const [quantity, setQauntity] = useState(1);
 
   // function addQuantity() {

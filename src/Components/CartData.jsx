@@ -1,9 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ProductsContext } from "../../Context/ProductsProvider";
+// import { ProductsContext } from "../../Context/ProductsProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteFromCart } from "../../Reducers/Cart-reducer";
+import { editBill } from "../../Reducers/Bill-reducer";
 
 function CartData({ item, about, quantity, cost, id, make }) {
-  const { cart, setCart, bill, setBill } = useContext(ProductsContext);
+  // const { bill, setBill } = useContext(ProductsContext);
   const [qty, setqty] = useState(quantity);
+
+  ///////Redux
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     handleBill(totalPrice);
@@ -12,13 +19,22 @@ function CartData({ item, about, quantity, cost, id, make }) {
   let totalPrice = cost * qty;
 
   function handleBill(totalPrice) {
-    setBill(() => [
-      ...bill.filter((e) => e.id !== id),
-      {
+    ////////Context
+    // setBill(() => [
+    //   ...bill.filter((e) => e.id !== id),
+    //   {
+    //     id: id,
+    //     totalPrice: totalPrice,
+    //   },
+    // ]);
+
+    ////////////Redux
+    dispatch(
+      editBill({
         id: id,
         totalPrice: totalPrice,
-      },
-    ]);
+      })
+    );
   }
 
   return (
@@ -66,11 +82,17 @@ function CartData({ item, about, quantity, cost, id, make }) {
           type="button"
           className="btn btn-success"
           onClick={() => {
-            setCart(() => cart.filter((el) => el.id !== id));
-            setBill(() => [
-              ...bill.filter((e) => e.id !== id),
-              { id: id, totalPrice: 0 },
-            ]);
+            ////////Redux
+            dispatch(deleteFromCart({ id: id }));
+            dispatch(editBill({ id: id, totalPrice: 0 }));
+            // dispatch(editCart({ id: id, totalPrice: 0 }));
+
+            // Context;
+            // setCart(() => cart.filter((el) => el.id !== id));
+            // setBill(() => [
+            //   ...bill.filter((e) => e.id !== id),
+            //   { id: id, totalPrice: 0 },
+            // ]);
           }}
         >
           Remove
